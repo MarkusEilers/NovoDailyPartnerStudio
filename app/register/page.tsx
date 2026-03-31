@@ -6,8 +6,8 @@ import Link from 'next/link';
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
     partnerId: '',
-    vorname: '',
-    nachname: '',
+    firstName: '',
+    lastName: '',
     email: '',
     password: '',
   });
@@ -17,10 +17,7 @@ export default function RegisterPage() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -31,85 +28,99 @@ export default function RegisterPage() {
     try {
       const response = await fetch('/api/auth/register', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        setError(data.message || 'Registrierung fehlgeschlagen. Bitte versuche es erneut.');
+        setError(data.error || data.message || 'Registrierung fehlgeschlagen.');
         return;
       }
 
       setSuccessMessage(true);
-      setFormData({
-        partnerId: '',
-        vorname: '',
-        nachname: '',
-        email: '',
-        password: '',
-      });
-    } catch (err) {
-      setError('Ein Fehler ist aufgetreten. Bitte versuche es später erneut.');
+      setFormData({ partnerId: '', firstName: '', lastName: '', email: '', password: '' });
+    } catch {
+      setError('Ein Fehler ist aufgetreten. Bitte versuche es erneut.');
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
-      <div className="w-full max-w-md">
-        <div className="bg-white rounded-lg shadow-lg p-8 sm:p-10">
-          {/* Logo and Header */}
-          <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-12 h-12 rounded-lg mb-4" style={{ backgroundColor: '#6e0147' }}>
-              <span className="text-white font-bold text-xl">ND</span>
+    <div className="min-h-screen flex">
+      {/* Left side — branding */}
+      <div
+        className="hidden lg:flex lg:w-1/2 relative items-center justify-center overflow-hidden"
+        style={{ backgroundColor: '#6e0147' }}
+      >
+        <div className="absolute -top-24 -left-24 w-96 h-96 rounded-full opacity-10" style={{ backgroundColor: '#E8A838' }} />
+        <div className="absolute -bottom-32 -right-32 w-[500px] h-[500px] rounded-full opacity-10" style={{ backgroundColor: '#E8A838' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 rounded-full opacity-5 border-2 border-white" />
+
+        <div className="relative z-10 text-center px-12 max-w-lg">
+          <div className="mb-8">
+            <span className="text-5xl font-extrabold text-white tracking-wider">NOVO</span>
+            <span className="text-5xl font-light text-white tracking-wider">DAILY</span>
+          </div>
+          <div className="w-16 h-0.5 mx-auto mb-6" style={{ backgroundColor: '#E8A838' }} />
+          <p className="text-white/80 text-xl font-light tracking-wide mb-3">
+            Partner Studio
+          </p>
+          <p className="text-white/50 text-sm tracking-widest uppercase">
+            Aging is Optional
+          </p>
+        </div>
+      </div>
+
+      {/* Right side — form */}
+      <div className="flex-1 flex items-center justify-center px-6 py-12 bg-gray-50">
+        <div className="w-full max-w-md">
+          {/* Mobile logo */}
+          <div className="lg:hidden text-center mb-10">
+            <div className="inline-flex items-center gap-1 mb-2">
+              <span className="text-3xl font-extrabold tracking-wider" style={{ color: '#6e0147' }}>NOVO</span>
+              <span className="text-3xl font-light tracking-wider" style={{ color: '#6e0147' }}>DAILY</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-              NOVODAILY PARTNER STUDIO
-            </h1>
-            <p className="text-gray-600 mt-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-              Aging is Optional
-            </p>
+            <p className="text-sm tracking-widest uppercase text-gray-400">Partner Studio</p>
           </div>
 
-          {/* Success State */}
           {successMessage ? (
-            <div className="text-center space-y-6">
-              <div className="p-6 bg-green-50 border border-green-200 rounded-lg">
-                <p className="text-green-800 font-medium mb-4">
-                  Dein Account wurde erstellt!
-                </p>
-                <p className="text-green-700 text-sm">
-                  Ein Admin wird Dich in Kürze freischalten.
-                </p>
+            <div className="text-center">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-100 mb-6">
+                <svg className="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
               </div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">Account erstellt!</h2>
+              <p className="text-gray-500 mb-8">
+                Ein Admin wird deinen Account in Kürze freischalten. Du bekommst dann Zugang zum Partner Studio.
+              </p>
               <Link
                 href="/login"
-                className="inline-block py-2.5 px-6 rounded-lg font-medium text-white transition duration-200 transform hover:scale-105 active:scale-95"
+                className="inline-flex items-center gap-2 py-3 px-8 rounded-lg font-semibold text-white transition-all duration-200 hover:shadow-lg hover:shadow-[#6e0147]/25"
                 style={{ backgroundColor: '#6e0147' }}
-                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#520038')}
-                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#6e0147')}
               >
                 Zur Anmeldung
               </Link>
             </div>
           ) : (
             <>
-              {/* Error Message */}
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900 mb-1">Account erstellen</h2>
+                <p className="text-gray-500 mb-8">Registriere dich als NovoDaily Partner.</p>
+              </div>
+
               {error && (
-                <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                <div className="mb-6 p-4 rounded-lg border border-red-200 bg-red-50">
                   <p className="text-sm text-red-700">{error}</p>
                 </div>
               )}
 
-              {/* Register Form */}
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label htmlFor="partnerId" className="block text-sm font-medium text-gray-700 mb-1">
+                  <label htmlFor="partnerId" className="block text-sm font-semibold text-gray-700 mb-1.5">
                     Partner-ID
                   </label>
                   <input
@@ -119,50 +130,48 @@ export default function RegisterPage() {
                     value={formData.partnerId}
                     onChange={handleChange}
                     required
-                    pattern="[A-Z]{2,4}[0-9]{4,}"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-offset-0 focus:outline-none transition"
-                    style={{ accentColor: '#6e0147' }}
+                    pattern="NP[A-Z]{2}[0-9]{4}"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white text-gray-900 placeholder-gray-400 focus:border-[#6e0147] focus:ring-2 focus:ring-[#6e0147]/10 focus:outline-none transition font-mono"
                     placeholder="NPAB1234"
                   />
-                  <p className="text-xs text-gray-500 mt-1">Format: z.B. NPAB1234</p>
+                  <p className="text-xs text-gray-400 mt-1">Format: NP + 2 Buchstaben + 4 Ziffern</p>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label htmlFor="firstName" className="block text-sm font-semibold text-gray-700 mb-1.5">
+                      Vorname
+                    </label>
+                    <input
+                      id="firstName"
+                      type="text"
+                      name="firstName"
+                      value={formData.firstName}
+                      onChange={handleChange}
+                      required
+                      className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white text-gray-900 placeholder-gray-400 focus:border-[#6e0147] focus:ring-2 focus:ring-[#6e0147]/10 focus:outline-none transition"
+                      placeholder="Max"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="lastName" className="block text-sm font-semibold text-gray-700 mb-1.5">
+                      Nachname
+                    </label>
+                    <input
+                      id="lastName"
+                      type="text"
+                      name="lastName"
+                      value={formData.lastName}
+                      onChange={handleChange}
+                      required
+                      className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white text-gray-900 placeholder-gray-400 focus:border-[#6e0147] focus:ring-2 focus:ring-[#6e0147]/10 focus:outline-none transition"
+                      placeholder="Mustermann"
+                    />
+                  </div>
                 </div>
 
                 <div>
-                  <label htmlFor="vorname" className="block text-sm font-medium text-gray-700 mb-1">
-                    Vorname
-                  </label>
-                  <input
-                    id="vorname"
-                    type="text"
-                    name="vorname"
-                    value={formData.vorname}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-offset-0 focus:outline-none transition"
-                    style={{ accentColor: '#6e0147' }}
-                    placeholder="Max"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="nachname" className="block text-sm font-medium text-gray-700 mb-1">
-                    Nachname
-                  </label>
-                  <input
-                    id="nachname"
-                    type="text"
-                    name="nachname"
-                    value={formData.nachname}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-offset-0 focus:outline-none transition"
-                    style={{ accentColor: '#6e0147' }}
-                    placeholder="Mustermann"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                  <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-1.5">
                     E-Mail
                   </label>
                   <input
@@ -172,14 +181,13 @@ export default function RegisterPage() {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-offset-0 focus:outline-none transition"
-                    style={{ accentColor: '#6e0147' }}
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white text-gray-900 placeholder-gray-400 focus:border-[#6e0147] focus:ring-2 focus:ring-[#6e0147]/10 focus:outline-none transition"
                     placeholder="deine@email.com"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+                  <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-1.5">
                     Passwort
                   </label>
                   <input
@@ -189,43 +197,47 @@ export default function RegisterPage() {
                     value={formData.password}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-offset-0 focus:outline-none transition"
-                    style={{ accentColor: '#6e0147' }}
-                    placeholder="••••••••"
+                    minLength={6}
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white text-gray-900 placeholder-gray-400 focus:border-[#6e0147] focus:ring-2 focus:ring-[#6e0147]/10 focus:outline-none transition"
+                    placeholder="Mind. 6 Zeichen"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full py-2.5 px-4 rounded-lg font-medium text-white transition duration-200 transform hover:scale-105 active:scale-95 disabled:opacity-75 disabled:cursor-not-allowed mt-6"
-                  style={{
-                    backgroundColor: '#6e0147',
-                  }}
-                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#520038')}
-                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#6e0147')}
+                  className="w-full py-3 px-4 rounded-lg font-semibold text-white transition-all duration-200 hover:shadow-lg hover:shadow-[#6e0147]/25 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:shadow-none mt-2"
+                  style={{ backgroundColor: '#6e0147' }}
                 >
-                  {isLoading ? 'Wird registriert...' : 'Registrieren'}
+                  {isLoading ? (
+                    <span className="inline-flex items-center gap-2">
+                      <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                      </svg>
+                      Wird registriert...
+                    </span>
+                  ) : 'Registrieren'}
                 </button>
               </form>
 
-              {/* Login Link */}
-              <div className="mt-6 text-center">
-                <p className="text-gray-600 text-sm">
+              <div className="mt-8 text-center">
+                <p className="text-gray-500 text-sm">
                   Bereits registriert?{' '}
-                  <Link
-                    href="/login"
-                    className="font-medium transition-colors"
-                    style={{ color: '#6e0147' }}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = '#520038')}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = '#6e0147')}
-                  >
+                  <Link href="/login" className="font-semibold text-[#6e0147] hover:text-[#520038] transition-colors">
                     Jetzt anmelden
                   </Link>
                 </p>
               </div>
             </>
           )}
+
+          {/* Bottom accent */}
+          <div className="mt-12 flex items-center justify-center gap-2 opacity-30">
+            <div className="w-8 h-0.5" style={{ backgroundColor: '#6e0147' }} />
+            <div className="w-2 h-2 rounded-full" style={{ backgroundColor: '#E8A838' }} />
+            <div className="w-8 h-0.5" style={{ backgroundColor: '#6e0147' }} />
+          </div>
         </div>
       </div>
     </div>
