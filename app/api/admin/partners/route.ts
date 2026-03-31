@@ -60,7 +60,7 @@ export async function PATCH(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { id, approved, isAdmin } = body;
+    const { id, approved, isAdmin, partnerId, firstName, lastName, email, phone, bio, title, company } = body;
 
     if (!id) {
       return NextResponse.json(
@@ -70,12 +70,16 @@ export async function PATCH(request: NextRequest) {
     }
 
     const updates: any = {};
-    if (approved !== undefined) {
-      updates.approved = approved;
-    }
-    if (isAdmin !== undefined) {
-      updates.isAdmin = isAdmin;
-    }
+    if (approved !== undefined) updates.approved = approved;
+    if (isAdmin !== undefined) updates.isAdmin = isAdmin;
+    if (partnerId !== undefined) updates.partnerId = partnerId;
+    if (firstName !== undefined) updates.firstName = firstName;
+    if (lastName !== undefined) updates.lastName = lastName;
+    if (email !== undefined) updates.email = email;
+    if (phone !== undefined) updates.phone = phone;
+    if (bio !== undefined) updates.bio = bio;
+    if (title !== undefined) updates.title = title;
+    if (company !== undefined) updates.company = company;
 
     const updated = await updatePartner(id, updates);
     if (!updated) {

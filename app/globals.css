@@ -55,12 +55,12 @@ body {
 }
 
 .btn-secondary {
-  background-color: #E8A838;
-  color: #1a1a2e;
+  background-color: #9A1866;
+  color: #ffffff;
 }
 
 .btn-secondary:hover {
-  background-color: #d09520;
+  background-color: #6e0147;
 }
 
 /* Forms */

@@ -40,41 +40,46 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex">
-      {/* Left side — branding */}
+      {/* Left side — branding panel with gradient */}
       <div
         className="hidden lg:flex lg:w-1/2 relative items-center justify-center overflow-hidden"
-        style={{ backgroundColor: '#6e0147' }}
+        style={{ background: 'linear-gradient(135deg, #9A1866 0%, #6e0147 50%, #520D35 100%)' }}
       >
-        {/* Decorative circles */}
-        <div className="absolute -top-24 -left-24 w-96 h-96 rounded-full opacity-10" style={{ backgroundColor: '#E8A838' }} />
-        <div className="absolute -bottom-32 -right-32 w-[500px] h-[500px] rounded-full opacity-10" style={{ backgroundColor: '#E8A838' }} />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 rounded-full opacity-5 border-2 border-white" />
+        {/* Subtle hexagon pattern overlay */}
+        <div className="absolute inset-0 opacity-[0.06]">
+          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="hex" width="60" height="52" patternUnits="userSpaceOnUse" patternTransform="scale(2)">
+                <path d="M30 0L60 15V37L30 52L0 37V15Z" fill="none" stroke="white" strokeWidth="0.5"/>
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#hex)"/>
+          </svg>
+        </div>
 
-        <div className="relative z-10 text-center px-12 max-w-lg">
-          <div className="mb-8">
-            <span className="text-5xl font-extrabold text-white tracking-wider">NOVO</span>
-            <span className="text-5xl font-light text-white tracking-wider">DAILY</span>
+        <div className="relative z-10 text-center px-16 max-w-lg">
+          {/* Logo: novo bold, DAILY light — per brand guideline */}
+          <div className="mb-6">
+            <span className="text-5xl font-extrabold text-white tracking-wide" style={{ fontFamily: 'Montserrat, sans-serif' }}>novo</span>
+            <span className="text-5xl font-extralight text-white tracking-wide" style={{ fontFamily: 'Montserrat, sans-serif' }}>DAILY</span>
           </div>
-          <div className="w-16 h-0.5 mx-auto mb-6" style={{ backgroundColor: '#E8A838' }} />
-          <p className="text-white/80 text-xl font-light tracking-wide mb-3">
+          <div className="w-12 h-px mx-auto mb-6 bg-white/30" />
+          <p className="text-white/70 text-lg font-light tracking-wide">
             Partner Studio
-          </p>
-          <p className="text-white/50 text-sm tracking-widest uppercase">
-            Aging is Optional
           </p>
         </div>
       </div>
 
-      {/* Right side — form */}
-      <div className="flex-1 flex items-center justify-center px-6 py-12 bg-gray-50">
+      {/* Right side — login form */}
+      <div className="flex-1 flex items-center justify-center px-6 py-12 bg-white">
         <div className="w-full max-w-md">
           {/* Mobile logo */}
           <div className="lg:hidden text-center mb-10">
-            <div className="inline-flex items-center gap-1 mb-2">
-              <span className="text-3xl font-extrabold tracking-wider" style={{ color: '#6e0147' }}>NOVO</span>
-              <span className="text-3xl font-light tracking-wider" style={{ color: '#6e0147' }}>DAILY</span>
+            <div className="inline-flex items-center gap-0 mb-2">
+              <span className="text-3xl font-extrabold tracking-wide" style={{ color: '#6e0147', fontFamily: 'Montserrat, sans-serif' }}>novo</span>
+              <span className="text-3xl font-extralight tracking-wide" style={{ color: '#6e0147', fontFamily: 'Montserrat, sans-serif' }}>DAILY</span>
             </div>
-            <p className="text-sm tracking-widest uppercase text-gray-400">Partner Studio</p>
+            <p className="text-sm text-gray-400 font-light tracking-wide">Partner Studio</p>
           </div>
 
           <div>
@@ -122,8 +127,8 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-3 px-4 rounded-lg font-semibold text-white transition-all duration-200 hover:shadow-lg hover:shadow-[#6e0147]/25 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:shadow-none"
-              style={{ backgroundColor: '#6e0147' }}
+              className="w-full py-3 px-4 rounded-lg font-semibold text-white transition-all duration-200 hover:opacity-90 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed"
+              style={{ background: 'linear-gradient(135deg, #9A1866 0%, #6e0147 100%)' }}
             >
               {isLoading ? (
                 <span className="inline-flex items-center gap-2">
@@ -140,17 +145,10 @@ export default function LoginPage() {
           <div className="mt-8 text-center">
             <p className="text-gray-500 text-sm">
               Noch kein Account?{' '}
-              <Link href="/register" className="font-semibold text-[#6e0147] hover:text-[#520038] transition-colors">
+              <Link href="/register" className="font-semibold text-[#6e0147] hover:text-[#520D35] transition-colors">
                 Jetzt registrieren
               </Link>
             </p>
-          </div>
-
-          {/* Bottom accent */}
-          <div className="mt-12 flex items-center justify-center gap-2 opacity-30">
-            <div className="w-8 h-0.5" style={{ backgroundColor: '#6e0147' }} />
-            <div className="w-2 h-2 rounded-full" style={{ backgroundColor: '#E8A838' }} />
-            <div className="w-8 h-0.5" style={{ backgroundColor: '#6e0147' }} />
           </div>
         </div>
       </div>
