@@ -108,19 +108,7 @@ export default async function PublicCardPage({ params }: Props) {
             {partner.email && (
               <a
                 href={`mailto:${partner.email}`}
-                className="flex items-center justify-center gap-3 px-6 py-4 rounded-lg transition-colors border-2"
-                style={{
-                  borderColor: '#6e0147',
-                  color: '#6e0147',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#6e0147';
-                  e.currentTarget.style.color = 'white';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'transparent';
-                  e.currentTarget.style.color = '#6e0147';
-                }}
+                className="flex items-center justify-center gap-3 px-6 py-4 rounded-lg transition-colors border-2 border-[#6e0147] text-[#6e0147] hover:bg-[#6e0147] hover:text-white"
               >
                 <span className="text-xl">📧</span>
                 <span className="font-medium">E-Mail schreiben</span>
@@ -129,19 +117,7 @@ export default async function PublicCardPage({ params }: Props) {
             {partner.phone && (
               <a
                 href={`tel:${partner.phone}`}
-                className="flex items-center justify-center gap-3 px-6 py-4 rounded-lg transition-colors border-2"
-                style={{
-                  borderColor: '#6e0147',
-                  color: '#6e0147',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#6e0147';
-                  e.currentTarget.style.color = 'white';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'transparent';
-                  e.currentTarget.style.color = '#6e0147';
-                }}
+                className="flex items-center justify-center gap-3 px-6 py-4 rounded-lg transition-colors border-2 border-[#6e0147] text-[#6e0147] hover:bg-[#6e0147] hover:text-white"
               >
                 <span className="text-xl">📱</span>
                 <span className="font-medium">Anrufen</span>
