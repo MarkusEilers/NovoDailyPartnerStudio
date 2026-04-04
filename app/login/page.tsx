@@ -30,7 +30,7 @@ export default function LoginPage() {
         return;
       }
 
-      router.push('/dashboard');
+      window.location.href = '/dashboard';
     } catch {
       setError('Ein Fehler ist aufgetreten. Bitte versuche es erneut.');
     } finally {
