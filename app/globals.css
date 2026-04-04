@@ -1,8 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap');
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@theme {
+  --color-primary: #6e0147;
+  --color-primary-light: #8a1660;
+  --color-primary-dark: #520135;
+  --color-bg: #f8f9fb;
+  --color-card: #ffffff;
+  --color-text: #1a1a2e;
+  --color-muted: #6b7d8e;
+  --color-border: #e5e7eb;
+  --font-sans: 'Montserrat', sans-serif;
+}
 
 * {
   margin: 0;
